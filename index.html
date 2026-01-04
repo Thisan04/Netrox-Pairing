@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netrox Pairing Server</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0;
+            background-image: radial-gradient(circle at center, #111 0%, #000 100%);
+        }
+        .container {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #00f2ff;
+            box-shadow: 0 0 20px #00f2ff;
+            text-align: center;
+            width: 320px;
+        }
+        .logo {
+            width: 80px; height: 80px;
+            background: #00f2ff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 40px; font-weight: bold; color: #000;
+            margin: 0 auto 20px;
+        }
+        h1 { font-size: 24px; color: #00f2ff; margin-bottom: 5px; text-transform: uppercase; }
+        .created { font-size: 10px; background: #00f2ff; color: #000; padding: 2px 10px; border-radius: 10px; font-weight: bold; }
+        p { font-size: 14px; margin-top: 20px; color: #ccc; }
+        input {
+            width: 100%; padding: 12px; margin: 15px 0;
+            background: #111; border: 1px solid #333;
+            color: #fff; border-radius: 10px; text-align: center;
+        }
+        button {
+            width: 100%; padding: 12px;
+            background: #00f2ff; border: none;
+            border-radius: 10px; font-weight: bold; cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover { box-shadow: 0 0 15px #00f2ff; }
+        #codeDisplay { margin-top: 20px; font-size: 24px; color: #00f2ff; font-weight: bold; letter-spacing: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">N</div>
+        <h1>NETROX</h1>
+        <span class="created">© CREATED BY YOU</span>
+        <p>Enter WhatsApp number with Country Code</p>
+        <input type="text" id="number" placeholder="Ex: 9477xxxxxxx">
+        <button onclick="getCode()">Get Code</button>
+        <div id="codeDisplay"></div>
+    </div>
+
+    <script>
+        async function getCode() {
+            const num = document.getElementById('number').value;
+            const display = document.getElementById('codeDisplay');
+            display.innerText = "Connecting...";
+            try {
+                const response = await fetch('/code?number=' + num);
+                const data = await response.json();
+                if(data.code) display.innerText = data.code;
+                else display.innerText = "Error!";
+            } catch (err) { display.innerText = "Failed!"; }
+        }
+    </script>
+</body>
+</html>
